@@ -13,7 +13,7 @@ export default function Navbar({history}){
 
     const handleLgout=()=>{
         console.log('history',history);
-        //localStorage.clear();
+        localStorage.clear();
         //history.push('/login');
     }
     return(

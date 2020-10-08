@@ -9,8 +9,8 @@ export default function Profile(){
                  <button type="button" id="sidebarCollapseSm" class="btn btn-main d-block d-md-none ml-auto">
                     <i class="fas fa-times-circle"></i>                        
                 </button>
-                <h5 class="m-0">Bank Application</h5>
-                <small><b>Electronic Payment System</b></small>
+                <h5 class="m-0">Kuwait Bank</h5>
+                <small><b>Global Payment Gateway</b></small>
             </div>
 
             <ul class="list-unstyled components">               

@@ -7,14 +7,10 @@ export default function Textbox(props){
         wrapperClass+=' has-error';
     }
     return(
-        <>
-        <div className={wrapperClass}>
-        <label htmlFor={props.name}>{props.name}</label>
-        <div className='field'>
-        <input type={props.type} name={props.name} onChange={props.handleChange}/>
-        </div>
-        {props.error && <div className='alert alert-danger'> {props.error} </div>}
-        </div>
+        <>        
+        {/*<label htmlFor={props.name}>{props.name}</label>*/}        
+        <input type={props.type} disabled={props.disabled} name={props.name} onChange={props.handleChange}/>
+       {props.error && <div className='alert alert-danger'> {props.error} </div>}      
         </>
     )
 }

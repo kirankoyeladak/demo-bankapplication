@@ -49,15 +49,51 @@ export default function UserRegistration({createUser,history}){
 
     return(
         <>
-        <section className="bg-light reg-form">
-        <h2>User Registration</h2>
-        <form>
-        <Textbox name='name' type='text' value={user.name} handleChange={handleChange}/>
-        <Textbox name='userid' type='text' value={user.userid} handleChange={handleChange}/>
-        <Textbox name='password' type='password' value={user.password} handleChange={handleChange}/>
-        <Textbox name='confirmPassword' type='password' value={user.confirmPassword} handleChange={handleChange}/>
-        <Textbox name='emailID' type='text' value={user.emailID} handleChange={handleChange}/>
-        <Textbox name="mobileNo" type='text' value={user.mobileNo} handleChange={handleChange}/>
+        <div id="register" className="container-fluid">
+            <div className="row h-100 justify-content-center align-items-center">
+                <div className="col-12 col-lg-6 py-5">
+
+                <div className="d-block brand">
+                    <i className="fas fa-university"></i>
+                    <h5 className="m-0">Bank Application</h5>
+                    <small><b>Electronic Payment System</b></small>
+                </div>
+
+        <section className="bg-light reg-form shadow">
+        <h3 class="m-5 bb-green d-block pb-3"><i class="fas fa-user-tie"></i> User Registration</h3>
+        
+         <form class="col-lg-10"> 
+            <div class="d-flex flex-row">
+                <label>Name</label>
+                <div class="flex-fill"><Textbox name='name' type='text' value={user.name} handleChange={handleChange}/>
+                </div>
+            </div>
+
+            <div class="d-flex flex-row">
+                <label>User Id</label>
+                <div class="flex-fill"><Textbox name='userid' type='text' value={user.userid} handleChange={handleChange}/></div>
+            </div>
+                
+            <div class="d-flex flex-row">
+                <label>Password</label>
+                <div class="flex-fill"><Textbox name='password' type='password' value={user.password} handleChange={handleChange}/></div>
+            </div>
+
+            <div class="d-flex flex-row">
+                <label>Confirm Password</label>
+                <div class="flex-fill"><Textbox name='confirmPassword' type='password' value={user.confirmPassword} handleChange={handleChange}/></div>
+            </div>
+
+            <div class="d-flex flex-row">
+                <label>Email Id</label>
+                <div class="flex-fill"><Textbox name='emailID' type='text' value={user.emailID} handleChange={handleChange}/></div>
+            </div>
+
+            <div class="d-flex flex-row">
+                <label>Mobile</label>
+                <div class="flex-fill"><Textbox name="mobileNo" type='text' value={user.mobileNo} handleChange={handleChange}/></div>
+            </div>
+
         {/* <Textbox name="gender" type='text' value={user.gender} handleChange={handleChange}/> */}
         <label>Gender</label>
         <select value={gender} onChange={(e)=>{
@@ -70,8 +106,10 @@ export default function UserRegistration({createUser,history}){
             <option value='male'>Male</option>
             <option value='female'>Female</option>
         </select><br/>
-         <button onClick={handleSubmit} className="btn btn-success d-block mx-auto mt-4 shadow-sm">Register</button>
-         <button className="btn btn-danger d-block mx-auto mt-4 shadow-sm">Clear</button>
+         <div class="text-right">
+             <button onClick={handleSubmit} className="btn btn-info d-inline-block mt-4 mr-2 shadow-sm">Register</button>
+             <button className="btn btn-danger d-inline-block mt-4 shadow-sm">Clear</button>
+        </div>
         </form>
         <ToastContainer />
         {show && <>
@@ -80,7 +118,11 @@ export default function UserRegistration({createUser,history}){
         
         </>
         }
-        </section>  
+                </section>
+
+            </div>
+        </div>  
+    </div>   
         </>
     )
 }

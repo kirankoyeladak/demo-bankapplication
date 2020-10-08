@@ -1,10 +1,25 @@
-import React from 'react';
-
+import React,{useState,useEffect} from 'react';
+import Firebase from '../api/config';
 export default function Profile(){
+    var ref = Firebase.ref("users");
     let loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'));
+    const [loggedUser,setLoggedUser]=useState(loggedInUser);
+
+    //get updated balance 
+    useEffect(() => {
+        console.log('loading...');
+        
+        ref.orderByChild("id").equalTo(loggedInUser.id).on("child_added", function(snapshot) {        
+            console.log(snapshot.key + " was " + snapshot.val().mobileNo + " meters tall");
+            //setTheObject(prevState => ({ ...prevState, currentOrNewKey: newValue}));
+            //setNames(names => [...names, {id:snapshot.val().id, name:snapshot.val().name,accountBalance:snapshot.val().accountBalance}])
+            setLoggedUser({...loggedUser,accountBalance:snapshot.val().accountBalance});
+          });
+        
+      },[]);
     return(
         <>
-            <div className="col-lg-4 mt-4 mt-lg-0">
+            
                 <section className="br-10 bg-light shadow-sm">
                     <div className="text-center">
                         <div className="p-3">
@@ -14,11 +29,11 @@ export default function Profile(){
                         </div>
                         <div className="d-flex flex-row border-top border-bottom mt-3">
                             <div className="p-4 text-center w-50 border-right"><b>47</b> <br /><small>Operations</small></div>
-                            <div className="p-4"><b>+$ {loggedInUser.accountBalance} </b><br /><small>Amount</small></div>
+                            <div className="p-4"><b>+$ {loggedUser.accountBalance} </b><br /><small>Amount</small></div>
                         </div>
                     </div>
                 </section>
-            </div>
+           
         </>
     )
 }

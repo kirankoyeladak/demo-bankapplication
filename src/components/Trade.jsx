@@ -21,6 +21,7 @@ export default function Trade(){
     
     return (
         <>
+        <div class="container">
         <h1>Trade Page</h1>
         <label>Amount</label>
         <Textbox name='name' type='number' value={amount} handleChange={handleChange}/>
@@ -45,6 +46,7 @@ export default function Trade(){
         <br/>
         <hr/>
         Trade Money:-{tradeAmount}
+        </div>
         </>
     )
 }

@@ -42,9 +42,9 @@ export default function NewLogin({history}){
 
     return(
     <>
-    <div id="main" className="container-fluid">
+    <div id="login" className="container-fluid">
         <div className="row h-100 justify-content-center align-items-center">
-            <div className="col-12">
+            <div className="col-12 col-md-8 col-lg-5">
 
                 <div className="d-block brand">
                     <i className="fas fa-university"></i>
@@ -58,7 +58,7 @@ export default function NewLogin({history}){
                              <i className="fa fa-user icon input-icon"></i>
                              <Textbox type='password' placeholder='Enter Password' name='password' value={login?.password} handleChange={handleChange}/>
                              <i className="fa fa-lock icon input-icon-pwd"></i>
-                            <button type="submit" className="d-block mx-auto mt-4 shadow-sm">Log In</button>                                               
+                            <button type="submit" className="btn btn-info d-block mx-auto mt-4 shadow-sm">Log In</button>                                               
                           </div>
 
                           <div className="container text-center mt-4">            

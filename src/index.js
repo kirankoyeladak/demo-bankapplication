@@ -6,7 +6,6 @@ import './style.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
-import './login-styles.css';
 
 ReactDOM.render(
   <React.StrictMode>
