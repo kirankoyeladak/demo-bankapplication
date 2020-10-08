@@ -15,7 +15,7 @@ export default function AccountBalance(){
             console.log(snapshot.key + " was " + snapshot.val().mobileNo + " meters tall");
             //setTheObject(prevState => ({ ...prevState, currentOrNewKey: newValue}));
             //setNames(names => [...names, {id:snapshot.val().id, name:snapshot.val().name,accountBalance:snapshot.val().accountBalance}])
-            setLoggedUser({...loggedUser,accountBalance:snapshot.val().accountBalance});
+            setLoggedUser(snapshot.val());
           });
         
       },[]);
@@ -37,21 +37,14 @@ export default function AccountBalance(){
                             <div>
                                 <div className="d-flex flex-md-row flex-column shadow-sm mt-4 bg-light br-10">
                                     <div className="pt-4 pl-4 p-md-4 text-secondary"><p className="font-weight-bold text-success m-0">Current Account</p>55221455665878</div>                                    
-                                    <div className="pl-4 pb-4 p-md-4 border-left flex-fill text-right"><b>Available</b><br />$ {loggedUser.accountBalance}  </div>
+                                    <div className="pl-4 pb-4 p-md-4 border-left flex-fill text-right"><b>Available</b><br />$ {loggedUser.savingAccount}  </div>
                                 </div>
 
                                 <div className="d-flex flex-md-row flex-column shadow-sm mt-4 bg-light br-10">
                                     <div className="pt-4 pl-4 p-md-4 text-secondary"><p className="font-weight-bold text-success m-0">Savings Account</p>55221455665878</div>                                    
-                                    <div className="pl-4 pb-4 p-md-4 border-left flex-fill text-right"><b>Available</b><br />$6,214.55</div>
+                                    <div className="pl-4 pb-4 p-md-4 border-left flex-fill text-right"><b>Available</b><br />$ {loggedUser.currentAccount}</div>
                                 </div>
-                            </div>   
-                        
-                            
-                           
-                      
-
-                        
-                   
+                            </div> 
         </>
     )
 }

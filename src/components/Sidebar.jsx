@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 export default function Profile(){
     let loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'));
@@ -15,7 +16,10 @@ export default function Profile(){
 
             <ul class="list-unstyled components">               
                 <li>
-                    <a href="#"><i class="fas fa-tv mr-2"></i> Dashboard</a>
+                    <NavLink to='/dashboard'>
+                    <i class="fas fa-tv mr-2"></i> 
+                        Dashboard
+                    </NavLink>
                 </li>                
                 <li>
                     <a href="#"><i class="fas fa-credit-card mr-2"></i> Payments</a>

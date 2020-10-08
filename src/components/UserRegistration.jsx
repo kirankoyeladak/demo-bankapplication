@@ -26,7 +26,7 @@ export default function UserRegistration({createUser,history}){
 
     const handleChange=({target})=>{
         console.log('gender',gender);
-        setUser({...user,[target.name]:target.value,id:custid({}),accountBalance:10000,gender:gender, userAvatar: gender === 'male' ? './assets/Male.jpg' : './assets/Female.png'});
+        setUser({...user,[target.name]:target.value,id:custid({}),accountBalance:10000,currentAccount:10000,savingAccount:5000,gender:gender, userAvatar: gender === 'male' ? './assets/Male.jpg' : './assets/Female.png'});
     }
 
     const handleSubmit=(event)=>{

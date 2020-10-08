@@ -13,7 +13,7 @@ export default function Profile(){
             console.log(snapshot.key + " was " + snapshot.val().mobileNo + " meters tall");
             //setTheObject(prevState => ({ ...prevState, currentOrNewKey: newValue}));
             //setNames(names => [...names, {id:snapshot.val().id, name:snapshot.val().name,accountBalance:snapshot.val().accountBalance}])
-            setLoggedUser({...loggedUser,accountBalance:snapshot.val().accountBalance});
+            setLoggedUser({...loggedUser,accountBalance:(snapshot.val().currentAccount + snapshot.val().savingAccount)});
           });
         
       },[]);
