@@ -24,19 +24,18 @@ export default function Trade(){
 
     function handleChange({target}){
         if(target.name === 'convertTradeMoney'){
-            setBidMoney({...bidMoney,[target.name]:target.value});
-            console.log(bidMoney);
+            //setBidMoney({...bidMoney,[target.name]:target.value});
+            let loggedinUser=JSON.parse(localStorage.getItem('loggedInUser'));
+            let loginUser=loggedinUser.id;
+            setTrade({userid:loginUser,id:cuid({}),fromCurrency:fromTrade,toCurrency:toTrade,amount:amount.amount,tradeMoney:toTrade,convertTradeMoney:tradeAmount,bidTradeMoney:target.value});
         }
         setAmount({...amount,[target.name]:target.value});
-        setTrade({...trade,[target.name]:target.value});
+        //setTrade({...trade,[target.name]:target.value});
     }
 
     function calculateTrade(toTrade){
         let finalPrice=Number((amount.amount*fromTrade)/toTrade);
-        let loggedinUser=JSON.parse(localStorage.getItem('loggedInUser'));
-        let loginUser=loggedinUser.id;
         setTradeAmount(Number(finalPrice).toFixed(2));
-        setTrade({userid:loginUser,id:cuid({}),fromCurrency:fromTrade,toCurrency:toTrade,amount:amount.amount,tradeMoney:toTrade,convertTradeMoney:tradeAmount,bidTradeMoney:0});
     }
 
     function handleSubmit(event){
@@ -46,6 +45,10 @@ export default function Trade(){
         toast.success('Data Saved successfully',{
             position:toast.POSITION.BOTTOM_RIGHT
         });
+        setFromTrade('Select');
+        setToTrade('Select');
+        setAmount(0);
+        setTradeAmount(0);
     }
     
     return (
@@ -75,7 +78,7 @@ export default function Trade(){
                     <div class="col-4">
                         <label>To</label>
                         <select value={toTrade} onChange={(e)=>{
-                            if(e.target.value != "select"){
+                            if(e.target.value !== "select"){
                                 setToTrade(e.target.value);
                                 calculateTrade(e.target.value);
                             }
@@ -92,7 +95,7 @@ export default function Trade(){
                 <div id="trade-wrapper" class="row mt-3 bg-light">
                     <div class="col-md-4 py-2 py-md-3 align-self-end">
                         <label>Trade Money</label>
-                        <div class="trade-money">|{toTrade}</div>
+                        <div class="bg-warning p-2">{toTrade === 'Select' ? '0' : toTrade}</div>
                     </div>
                     <div class="col-md-4 py-md-3 align-self-end">
                         <label>Calculate Amount</label>
