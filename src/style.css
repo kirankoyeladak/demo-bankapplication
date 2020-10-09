@@ -415,15 +415,23 @@ background: linear-gradient(90deg, rgba(254,153,141,1) 0%, rgba(253,164,137,1) 3
   padding: 6px 10px;
   width: 100%;
 }
+#trade label {
+    color: #666;
+}
 #trade-wrapper input {
-  width: 120px;
+  width: 100%;
 }
 .trade-money {
   line-height: 37px;
   background: orange;
   padding: 0 10px;
+  display: block;
+  width: 100%;
 }
-
+#trade-wrapper label {
+  font-size: 12px;
+  text-align: center;
+}
 /* ---------------------------------------------------
     Trasfers DashBoard
 ----------------------------------------------------- */
