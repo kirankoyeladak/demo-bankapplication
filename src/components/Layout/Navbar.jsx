@@ -18,7 +18,7 @@ export default function Navbar({history}){
     }
     return(
         <>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light bg-white">
                 <div className="container-fluid">
 
                     <button type="button" id="sidebarCollapse" className="btn btn-main">

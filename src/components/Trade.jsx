@@ -22,16 +22,17 @@ export default function Trade(){
     return (
         <>
         <div className="mt-4">
-            <h6><i className="fas fa-arrow-circle-down mr-2 mt-1 ml-2"></i> Currency Exchange </h6>
+            <h6><i className="fas fa-arrow-circle-down mr-2 mt-1 ml-4"></i> Currency Exchange </h6>
         </div>
         <div id="trade" class="container bg-white br-10 mt-3 p-4 shadow-sm">
            
-            <div>
-                <label>Amount</label>
-                <Textbox name='name' type='number' value={amount} handleChange={handleChange}/>
-            </div>
-            <div class="d-flex mt-4">
-                <div class="flex-fill mr-2">
+           
+            <div class="row">
+                 <div class="col-4 d-flex flex-column">
+                    <label>Amount</label>
+                    <Textbox name='name' type='number' value={amount} handleChange={handleChange}/>
+                </div>
+                <div class="col-4">
                     <label>From</label>
                     <select value={fromTrade} onChange={(e)=>{
                         setFromTrade(e.target.value)
@@ -41,7 +42,7 @@ export default function Trade(){
                         <option value='70'>USD</option>
                     </select>
                 </div>
-                <div class="flex-fill">
+                <div class=" col-4">
                     <label>To</label>
                     <select value={toTrade} onChange={(e)=>{
                         setToTrade(e.target.value)
@@ -52,16 +53,20 @@ export default function Trade(){
                     </select>
                 </div>
             </div>
-            <div class="my-4 d-flex">
-                <div class="flex-fill mr-2">
+            <div id="trade-wrapper" class="my-4 d-flex flex-column flex-sm-row">
+                <div class="flex-fill mr-md-2">
                     <label>Trade Money</label>
-                    <div class="bg-warning p-2">{tradeAmount}</div>
+                    <div class="trade-money">{tradeAmount}</div>
                 </div>
-                <div class="flex-fill">
-                    <label>Amount</label>
+                <div class="mt-3 mt-sm-0 mr-sm-2">
+                    <label class="d-block">Amount</label>
                     <Textbox name='name' type='number' value={amount} handleChange={handleChange}/> 
                 </div>
-                <div class="align-self-end ml-2">
+                <div class="mt-3 mt-sm-0">
+                    <label class="d-block">Trade Value</label>
+                    <Textbox name='name' type='number' value=''/> 
+                </div>
+                <div class="align-self-end ml-2 mt-3 mt-sm-0">
                     <button class='btn btn-info ml-auto br-10' onClick={handleSubmit}>Trade</button>
                 </div>    
             </div>

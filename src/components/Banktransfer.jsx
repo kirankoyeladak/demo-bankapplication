@@ -156,54 +156,55 @@ export default function Banktransfer({history}){
             <Sidebar/>
             <div id="content">
                 <Navbar/>
-                <div class="container-fluide px-3 px-md-0 m-4">
+                <div class="container-fluide px-3">
                     <div className="dash-transfers shadow-sm">
 
-                        <div class="col-lg-12 py-4 mx-auto">
+                        <div class="p-4 mx-auto">
                             <h2 class=""><i class="fas fa-arrow-circle-down mr-2 mt-1 ml-2"></i> Transfer</h2>
                             
 
                             <div className="row mt-4 p-3">
-                                <div class="bg-gradient-green b-15-tl p-4 col-lg-6">
+                                <div class="bg-gradient-green p-4 col-lg-6">
                                     <div class="d-flex">
                                         <div class="mr-3 pt-1">
                                         <i class="fas fa-user"></i> Sender : <span class="font-weight-bold">{loggedinUser.name}</span>                                   
                                         </div>
                                          <div class="mr-3">
-                                             <select id="inputState" class="form-control" onChange={handleAccountType}>
-                                             <option selected value="0">Select</option>
+                                             <select id="inputState" class="" onChange={handleAccountType}>
+                                             <option selected value="0">Select Account</option>
                                                 <option  value={user2?.savingAccount}>Savings Account</option>
                                                 <option value={user2?.currentAccount}>Current Account</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bg-gradient-red b-15-tr p-4 col-lg-6">    
+                                <div class="bg-gradient-red p-4 col-lg-6">    
                                     <div class="pt-1">
                                     Availabel Balance <span class="bg-warning px-3 font-weight-bold py-2"><i class="fas fa-dollar-sign"></i> {sendUserInfo.amount} </span>
                                      {
-                                      (accBalance <=0  || amount>accBalance)&& <div class='bg-danger position-absolute p-3 text-light'>Insufficent Funds unable to transfer</div>
+                                      (accBalance <=0  || amount>accBalance)&& <div class='bg-danger position-relative p-3 mt-2 text-light'>Insufficent Funds unable to transfer</div>
                                     }
 
                                     {
-                                      amount < 0 && <h5 class='btn btn-danger'>Invalid Amount</h5>
+                                      amount < 0 && <h5 class='bg-danger p-3 mt-3'>Invalid Amount</h5>
                                     }
                                     </div>
                                  </div>                               
 
                             </div>
 
-                            <div className="d-flex flex-column flex-lg-row bg-light p-4 mb-5">
-                                <div class="mr-2">    
-                                    <label class="text-secondary">Transfer To</label>
-                                    <div>
+                            <div class="container mb-5">
+                                <div class="row">
+                                <div class="col-12 col-md-3">    
+                                    <label class="text-secondary d-block">Transfer To</label>
+                                    <div class="autocomplete-wrapper">
                                           <Autocomplete items={names}
                                             disabled={true}
                                             value={xyz.val}
                                             getItemValue={item => item.name}
                                             shouldItemRender={RenderUserInfo}
                                             renderMenu={item => (
-                                                <div className="dropdown border p-3 position-absolute bg-white">
+                                                <div className="dropdown">
                                                   {item}
                                                 </div>
                                               )}
@@ -223,25 +224,26 @@ export default function Banktransfer({history}){
                                             />  
                                     </div>
                                 </div>
-                                <div class="mr-2">
-                                    <label class="text-secondary">Account Type</label>
+                                <div class="col-md-3">
+                                    <label class="text-secondary mt-3 mt-md-0">Account Type</label>
                                     <div>
-                                     <select id="inputState" disabled={xyz.val === ''} class="form-control" onChange={handleReceiveUser}>
+                                     <select id="inputState" disabled={xyz.val === ''} class="" onChange={handleReceiveUser}>
                                         <option selected>Savings Account</option>
                                         <option>Current Account</option>
                                     </select>
                                     </div>
                                 </div>    
-                                <div class="mt-3 mt-md-0">
-                                    <label class="text-secondary">Transfer Amount</label>
+                                <div class="col-md-3">
+                                    <label class="text-secondary mt-3 mt-md-0">Transfer Amount</label>
                                     <div>
                                         <Textbox name='amount' disabled={xyz.val === '' }  type='number'value={amount} handleChange={handleChange}/>
                                     </div>
                                 </div>
-                                <div class="align-self-end mt-3 mt-md-0"> 
-                                    <button className='btn btn-info ml-md-2 d-block' disabled={xyz.val === '' } onClick={handleTransfer}>Transfer</button>                                  
+                                <div class="col-md-3 align-self-end mt-3 mt-md-0"> 
+                                    <button className='btn btn-info d-block' disabled={xyz.val === '' } onClick={handleTransfer}>Transfer</button>                                  
                                 </div>    
-                            </div>                                                   
+                            </div> 
+                            </div>                                                  
                             {/*
                             <p>
                                 {

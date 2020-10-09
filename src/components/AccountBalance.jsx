@@ -25,26 +25,37 @@ export default function AccountBalance(){
     return(
         <>
         <div className="d-flex flex-row">
-                                <div className="">
-                                    <h6><i className="fas fa-arrow-circle-down mr-2 mt-1 ml-2"></i> My Accounts </h6>
-                                </div>
-                                <div class="flex-fill text-right">
-                                    <NavLink to='transfer' className="btn btn-info ml-auto">
-                                    <i className="fas fa-paper-plane"></i> New Transfer
-                                    </NavLink>
-                                </div>
-                            </div>
-                            <div>
-                                <div className="d-flex flex-md-row flex-column shadow-sm mt-4 bg-light br-10">
-                                    <div className="pt-4 pl-4 p-md-4 text-secondary"><p className="font-weight-bold text-success m-0">Current Account</p>55221455665878</div>                                    
-                                    <div className="pl-4 pb-4 p-md-4 border-left flex-fill text-right"><b>Available</b><br />$ {loggedUser.savingAccount}  </div>
-                                </div>
-
-                                <div className="d-flex flex-md-row flex-column shadow-sm mt-4 bg-light br-10">
-                                    <div className="pt-4 pl-4 p-md-4 text-secondary"><p className="font-weight-bold text-success m-0">Savings Account</p>55221455665878</div>                                    
-                                    <div className="pl-4 pb-4 p-md-4 border-left flex-fill text-right"><b>Available</b><br />$ {loggedUser.currentAccount}</div>
-                                </div>
-                            </div> 
+            <div className="align-self-end">
+                <h6><i className="fas fa-arrow-circle-down mr-2 ml-4"></i> My Accounts </h6>
+            </div>
+            <div class="flex-fill text-right">
+                <NavLink to='transfer' className="btn btn-info ml-auto">
+                    <i className="fas fa-paper-plane"></i> New Transfer
+                </NavLink>
+            </div>
+        </div>
+        <div>
+            <div className="container shadow-sm mt-3 bg-white br-10">
+                <div class="row p-2">
+                    <div className="col-sm-6 p-4 bg-gradient-green br-10">
+                        <p className="font-weight-bold text-success m-0">Savings Account</p>55221455665878
+                    </div>
+                    <div className="col-sm-6 p-md-4">
+                        <span class="vertical-align:middle;">Available</span> <span class="vertical-align:middle; display-6"> ${loggedUser.savingAccount} </span> 
+                    </div>
+                </div>
+            </div>
+            <div className="container shadow-sm mt-3 bg-white br-10">
+               <div class="row p-2">
+                    <div className="col-sm-6 p-4 bg-gradient-red br-10">
+                        <p className="font-weight-bold text-success m-0">Current Account</p>55221455665878
+                    </div>
+                    <div className="col-sm-6 p-md-4">
+                        <span class="vertical-align:middle;">Available</span> <span class="vertical-align:middle; display-6"> ${loggedUser.currentAccount} </span> 
+                    </div>
+                </div>
+            </div>
+        </div>
         </>
     )
 }

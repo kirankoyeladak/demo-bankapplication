@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import Firebase from '../api/config';
-export default function Profile(){
+export default function FloatNav(){
     var ref = Firebase.ref("users");
     let loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'));
     const [loggedUser,setLoggedUser]=useState(loggedInUser);
@@ -20,19 +20,21 @@ export default function Profile(){
     return(
         <>
             
-                <section className="br-10 bg-white shadow-sm mt-4 mt-lg-0">
-                    <div className="text-center">
-                        <div className="p-3">
-                            <img src={loggedInUser.userAvatar} width="90" height="90" className="rounded-circle mb-2" />
-                            <h5 className="mb-0">{loggedInUser.name} </h5>
-                            <small>New York City - USA<br /> <a href="" className="text-info">User Settings</a></small>
-                        </div>
-                        <div className="d-flex flex-row border-top border-bottom mt-3">
-                            <div className="p-4 text-center w-50 border-right"><b>47</b> <br /><small>Operations</small></div>
-                            <div className="p-4 text-center w-50"><b>+$ {loggedUser.accountBalance} </b><br /><small>Amount</small></div>
-                        </div>
-                    </div>
-                </section>
+    <ul class="list-unstyled components" id="floating-nav">
+        
+        <li>
+            <a href="#"><i class="fas fa-tv"></i></a>
+        </li>
+        <li>
+            <a href="#"><i class="fas fa-credit-card"></i></a>
+        </li>
+        <li>
+            <a href="#"><i class="fas fa-history"></i></a>
+        </li>
+        <li>
+            <a href="#"><i class="fas fa-cog"></i></a>
+        </li>
+    </ul>
            
         </>
     )
