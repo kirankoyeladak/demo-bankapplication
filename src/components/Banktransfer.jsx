@@ -29,6 +29,8 @@ export default function Banktransfer({history}){
         amount:""
     }
 
+    const [showError,setShowError]=useState(false);
+
     const [accBalance,setAccBalance]=useState(0);
 
     const [sendUserInfo,setSendUserInfo]=useState(acccUser);
@@ -139,6 +141,9 @@ export default function Banktransfer({history}){
     function handleAccountType(event){
         var index = event.nativeEvent.target.selectedIndex;
         setSendUserInfo({ accType:event.nativeEvent.target[index].text,amount:event.target.value});
+        if(event.target.value){
+            setShowError(true);
+        }
         //setAccBalance(event.target.value);
         console.log("sendUserInfo ",sendUserInfo);
     }
@@ -182,7 +187,8 @@ export default function Banktransfer({history}){
                                     <div class="pt-1">
                                     Availabel Balance <span class="bg-warning px-3 font-weight-bold py-2"><i class="fas fa-dollar-sign"></i> {sendUserInfo.amount} </span>
                                      {
-                                      (accBalance <=0  || amount>accBalance)&& <div class='bg-danger position-relative p-3 mt-2 text-light'>Insufficent Funds unable to transfer</div>
+                                      ((sendUserInfo.accType !== "Select Account" && sendUserInfo.amount<=0) && (showError))&& 
+                                      <div class='bg-danger position-relative p-3 mt-2 text-light'>Insufficent Funds unable to transfer</div>
                                     }
 
                                     {
@@ -228,7 +234,8 @@ export default function Banktransfer({history}){
                                     <label class="text-secondary mt-3 mt-md-0">Account Type</label>
                                     <div>
                                      <select id="inputState" disabled={xyz.val === ''} class="" onChange={handleReceiveUser}>
-                                        <option selected>Savings Account</option>
+                                        <option selected value="0">Select Account</option>
+                                        <option >Savings Account</option>
                                         <option>Current Account</option>
                                     </select>
                                     </div>
