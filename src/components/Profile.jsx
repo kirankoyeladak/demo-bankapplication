@@ -13,7 +13,7 @@ export default function Profile(){
             console.log(snapshot.key + " was " + snapshot.val().mobileNo + " meters tall");
             //setTheObject(prevState => ({ ...prevState, currentOrNewKey: newValue}));
             //setNames(names => [...names, {id:snapshot.val().id, name:snapshot.val().name,accountBalance:snapshot.val().accountBalance}])
-            setLoggedUser({...loggedUser,accountBalance:(snapshot.val().currentAccount + snapshot.val().savingAccount)});
+            setLoggedUser({...loggedUser,country:snapshot.val().country, accountBalance:(snapshot.val().currentAccount + snapshot.val().savingAccount)});
           });
         
       },[]);
@@ -25,11 +25,11 @@ export default function Profile(){
                         <div className="p-3">
                             <img src={loggedInUser.userAvatar} width="90" height="90" className="rounded-circle mb-2" />
                             <h5 className="mb-0">{loggedInUser.name} </h5>
-                            <small>New York City - USA<br /> <a href="" className="text-info">User Settings</a></small>
+                            <small>{loggedUser.country}<br /> <a href="" className="text-info">User Settings</a></small>
                         </div>
                         <div className="d-flex flex-row border-top border-bottom mt-3">
                             <div className="p-4 text-center w-50 border-right"><b>47</b> <br /><small>Operations</small></div>
-                            <div className="p-4 text-center w-50"><b>+$ {loggedUser.accountBalance} </b><br /><small>Amount</small></div>
+                            <div className="p-4 text-center w-50"><b>+{loggedUser.country === 'India' ? '₹' : loggedUser.country === 'USA' ? '$' : loggedUser.country === 'Kuwait' ? 'د.ك' : 'Select'} {loggedUser.accountBalance} </b><br /><small>Amount</small></div>
                         </div>
                     </div>
                 </section>

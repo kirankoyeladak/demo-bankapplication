@@ -41,7 +41,7 @@ export default function AccountBalance(){
                         <p className="font-weight-bold text-success m-0">Savings Account</p>55221455665878
                     </div>
                     <div className="col-sm-6 p-md-4">
-                        <span class="vertical-align:middle;">Available</span> <span class="vertical-align:middle; display-6"> ${loggedUser.savingAccount} </span> 
+                        <span class="vertical-align:middle;">Available</span> <span class="vertical-align:middle; display-6"> {loggedUser.country === 'India' ? '₹' : loggedUser.country === 'USA' ? '$' : loggedUser.country === 'Kuwait' ? 'د.ك' : 'Select'}{loggedUser.savingAccount} </span> 
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@ export default function AccountBalance(){
                         <p className="font-weight-bold text-success m-0">Current Account</p>55221455665878
                     </div>
                     <div className="col-sm-6 p-md-4">
-                        <span class="vertical-align:middle;">Available</span> <span class="vertical-align:middle; display-6"> ${loggedUser.currentAccount} </span> 
+                        <span class="vertical-align:middle;">Available</span> <span class="vertical-align:middle; display-6"> {loggedUser.country === 'India' ? '₹' : loggedUser.country === 'USA' ? '$' : loggedUser.country === 'Kuwait' ? 'د.ك' : 'Select'}{loggedUser.currentAccount} </span> 
                     </div>
                 </div>
             </div>

@@ -8,6 +8,7 @@ import {NavLink} from 'react-router-dom';
 
 export default function UserRegistration({createUser,history}){
     const [gender,setGender]=useState('Select');
+    const [country,setCountry]=useState('Select');
 
     const intialValue={
         id:null,
@@ -19,14 +20,15 @@ export default function UserRegistration({createUser,history}){
         mobileNo:null,
         gender:"",
         userAvatar:"",
-        accountBalance:0
+        accountBalance:0,
+        country:""
     }
     const[user,setUser]=useState(intialValue);    
     const[show,setShow]=useState(false);
 
     const handleChange=({target})=>{
         console.log('gender',gender);
-        setUser({...user,[target.name]:target.value,id:custid({}),accountBalance:10000,currentAccount:10000,savingAccount:5000,gender:gender, userAvatar: gender === 'male' ? './assets/Male.jpg' : './assets/Female.png'});
+        setUser({...user,[target.name]:target.value,id:custid({}),accountBalance:10000,currentAccount:10000,savingAccount:5000,gender:gender, userAvatar: gender === 'male' ? './assets/Male.jpg' : './assets/Female.png',country:country});
     }
 
     const handleSubmit=(event)=>{
@@ -106,6 +108,18 @@ export default function UserRegistration({createUser,history}){
             <option value='male'>Male</option>
             <option value='female'>Female</option>
         </select><br/>
+        <label>Country</label>
+        <select value={country} onChange={(e)=>{
+            console.log('country',e.target.value);
+            setCountry(e.target.value);
+            setUser({...user,country:e.target.value});
+            
+        }} className="custom-select">
+            <option value='Select'>Select</option>
+            <option value='India'>India</option>
+            <option value='USA'>USA</option>
+            <option value='Kuwait'>Kuwait</option>
+        </select><br/>
          <div class="text-right">
              <button onClick={handleSubmit} className="btn btn-info d-inline-block mt-4 mr-2 shadow-sm">Register</button>
              <button className="btn btn-danger d-inline-block mt-4 shadow-sm">Clear</button>
@@ -114,7 +128,7 @@ export default function UserRegistration({createUser,history}){
         <ToastContainer />
         {show && <>
             <h3>User Registration is success, your otp is {user.id}</h3>
-            <p> Please <NavLink to='/login'>login</NavLink> with your credentials </p>
+            <p> Please <NavLink to='/login' className="text-info">login</NavLink> with your credentials </p>
         
         </>
         }

@@ -7,8 +7,17 @@ import Navbar from './Layout/Navbar';
 import Sidebar from './Sidebar';
 import Autocomplete from 'react-autocomplete';
 import {RenderUserInfo} from  './RenderUserInfo';
+import custid from 'custom-id';
 
 export default function Banktransfer({history}){
+
+    const initRecentTrans={
+        id:"",
+        accType:"",
+        availableBalance:0,
+        FinalBalance:0
+    }
+    
 
     const userAccountBalance={
         id:"",
@@ -31,7 +40,7 @@ export default function Banktransfer({history}){
 
     const [showError,setShowError]=useState(false);
 
-    const [accBalance,setAccBalance]=useState(0);
+    const [accBalance,setAccBalance]=useState(initRecentTrans);
 
     const [sendUserInfo,setSendUserInfo]=useState(acccUser);
     const[receiveUserInfo,setReceiveUserInfo]=useState();
@@ -97,11 +106,14 @@ export default function Banktransfer({history}){
 
         console.log('setSendUserInfo ',sendUserInfo);
         console.log('Receiver user info ',receiveUserInfo);
-        debugger;
+        
         if(loggedinUser && receiveUserInfo){
         let userRef = Firebase.ref('users/' + loggedinUser.id);
         let availableAmount=sendUserInfo.amount -amount;
         user2.accountBalance=availableAmount;
+        //{loggedUser.country === 'India' ? '₹' : loggedUser.country === 'USA' ? '$' : loggedUser.country === 'Kuwait' ? 'د.ك' : 'Select'} {loggedUser.accountBalance}
+        //let countryCurrency=loggedinUser.country === 'India' ? 1 : loggedinUser.country === 'USA' ? 72  :  238.56;
+        
         //update balance basedon account type
         if(sendUserInfo?.accType !== "Select" && receiveUserInfo?.accType !== "Select"){
             sendUserInfo.accType === "Current Account" ? (   
@@ -122,7 +134,8 @@ export default function Banktransfer({history}){
                 let transferAmount=(Number(item.savingAccount)+Number(amount));
                 transferUser.update({'savingAccount':transferAmount});    
             }
-
+            transHistory();
+            
             //update local storage
             localStorage.setItem('loggedInUser',JSON.stringify(user2));
         }
@@ -136,6 +149,24 @@ export default function Banktransfer({history}){
 
     function handleChange(event){
         setAmount(event.target.value);
+    }
+
+    function currencyCalculator(userCurrency,sendCurrency){
+        let countryCurrency=userCurrency.country === 'India' ? 'INR' : userCurrency.country === 'USA' ? 'USD'  :  'KWD';
+        if(sendCurrency === 'India' && countryCurrency === 'India'){
+            return 1;
+        }else if(sendCurrency === 'India' && countryCurrency === 'USA'){
+            return 72;
+        }
+    }
+
+    //transaction history
+    function transHistory(){
+        console.log('sendUserInfo',accBalance);
+        let currentDate=new Date();
+        let id=custid({});
+        let userRef = Firebase.ref('recentTrans/' + id);
+            userRef.set({user2,transDate:currentDate.toDateString()});
     }
 
     function handleAccountType(event){

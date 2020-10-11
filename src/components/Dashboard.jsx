@@ -4,7 +4,7 @@ import FloatNav from './FloatNav';
 import Sidebar from './Sidebar';
 import AccountBalance from './AccountBalance';
 import Profile from './Profile';
-import Trade from './Trade';
+import TransactionHistory from './TransactionHistory';
 import Footer from './Footer';
 
 export default function Dashboard({history}){
@@ -20,7 +20,8 @@ export default function Dashboard({history}){
 			                    <div class="row">
 							        <div className="col-lg-7 pl-lg-4">
 							       	 	<AccountBalance/>
-							       	 	 <Trade/>
+							       	 	 {/* <Trade/> */}
+										<TransactionHistory/>
 							        </div>
 							        <div className="col-lg-5">
 							        	<Profile/>
