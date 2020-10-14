@@ -8,6 +8,7 @@ import Sidebar from './Sidebar';
 import Autocomplete from 'react-autocomplete';
 import {RenderUserInfo} from  './RenderUserInfo';
 import custid from 'custom-id';
+import {currencyvalues} from '../api/currencyvalues';
 
 export default function Banktransfer({history}){
 
@@ -56,46 +57,17 @@ export default function Banktransfer({history}){
     var ref = Firebase.ref("users");    
 
     useEffect(() => {
-        
+        console.log('currencyvalues ',currencyvalues);
         ref.orderByChild("id").on("child_added", function(snapshot) {        
-            //console.log(snapshot.key + " was " + snapshot.val().mobileNo + " meters tall");
-            //setTheObject(prevState => ({ ...prevState, currentOrNewKey: newValue}));
-            setNames(names => [...names, {id:snapshot.val().id, name:snapshot.val().name,accountBalance:snapshot.val().accountBalance,savingAccount:snapshot.val().savingAccount, currentAccount:snapshot.val().currentAccount}])
-            //setTransfer(JSON.stringify(snapshot.val()));
-            //localStorage.setItem('Transfer',JSON.stringify(snapshot.val()));
+            setNames(names => [...names, {id:snapshot.val().id, name:snapshot.val().name,accountBalance:snapshot.val().accountBalance,savingAccount:snapshot.val().savingAccount, currentAccount:snapshot.val().currentAccount,country:snapshot.val().country}])
           });
-
-        // ref.orderByChild("id").equalTo('31CI83QU').on("child_added", function(snapshot) {        
-        //     console.log(snapshot.key + " was " + snapshot.val().mobileNo + " meters tall");
-        //     setTransfer({...user,balanceAmount:snapshot.val().accountBalance,name:snapshot.val().name});
-        //     //setTransfer(JSON.stringify(snapshot.val()));
-        //     localStorage.setItem('Transfer',JSON.stringify(snapshot.val()));
-        //   });
       },[]);
 
-      // if(names.length>0){
-      //   debugger;
-      // let loginUser=loggedinUser.id;
-      // let index= names.findIndex(x=>x.id === loginUser);
-      // if(index>-1){
-      //   console.log('removed logedin user ',names.splice(index,1));
-      // }
-      // }
-
-    //let transferObject=JSON.parse(localStorage.getItem('Transfer'));
-    //console.log('bankTransfer',JSON.stringify(names));
-    //const [source,destination]=useState();
+    
     const [amount, setAmount]=useState(0);
     
     //get particular user
     let user2=names.find(x=>x.id === loggedinUser.id);
-    //setAccountType({...accountType,currentAccBalance:user2.currentAccount,savingAccBalance:user2.savingAccount});
-    console.log("Acount type ..................> ",user2);
-    
-
-    //console.log('loggedinUser',loggedinUser);
-    //console.log('transferObject',transfer);
-    
     
     function handleTransfer(event){
         event.preventDefault();
@@ -111,8 +83,6 @@ export default function Banktransfer({history}){
         let userRef = Firebase.ref('users/' + loggedinUser.id);
         let availableAmount=sendUserInfo.amount -amount;
         user2.accountBalance=availableAmount;
-        //{loggedUser.country === 'India' ? '₹' : loggedUser.country === 'USA' ? '$' : loggedUser.country === 'Kuwait' ? 'د.ك' : 'Select'} {loggedUser.accountBalance}
-        //let countryCurrency=loggedinUser.country === 'India' ? 1 : loggedinUser.country === 'USA' ? 72  :  238.56;
         
         //update balance basedon account type
         if(sendUserInfo?.accType !== "Select" && receiveUserInfo?.accType !== "Select"){
@@ -121,19 +91,33 @@ export default function Banktransfer({history}){
             ) : (
                 userRef.update({'savingAccount':availableAmount})
             );
-
+            let item=names.find(x=>x.name === xyz.val);
             let transferUser=Firebase.ref('users/' + item.id);
-            //update balance
-            console.log('receiveUserInfo  ',receiveUserInfo);
+
+            //currency convertion
+                 //sender
+         let user2=names.find(x=>x.id === loggedinUser.id);
+         let countryCurrency=user2.country === 'India' ? 'inr' : loggedinUser.country === 'USA' ? 'usd'  :  'kwd';
+         let baseCurrency=countryCurrency;
+         let findCurrency=currencyvalues.find(x=>x.id === countryCurrency);
+         let senderCountryCurrency=loggedinUser.country === 'India' ? 'inr' : loggedinUser.country === 'USA' ? 'usd'  :  'kwd';
+         //receiver
+         let receiverCountryCurrencyCode=item.country === 'India' ? 'inr' : item.country === 'USA' ? 'usd'  :  'kwd';
+         let receiverCountryCurrency=item.country === 'India' ? 'inr' : item.country === 'USA' ? 'usd'  :  'kwd';
+         
+         let currencyCalAmount=CalculateAmount(baseCurrency,senderCountryCurrency,receiverCountryCurrencyCode,amount,findCurrency);
+        //end of currency convertion
+
             if(receiveUserInfo?.accType === "Current Account")  {
-                let transferAmount=(Number(item.currentAccount)+Number(amount));
+                let transferAmount=(Number(item.currentAccount)+Number(amount)+Number(currencyCalAmount));
                 transferUser.update({'currentAccount':transferAmount});    
             }
 
             if(receiveUserInfo?.accType === "Savings Account"){
-                let transferAmount=(Number(item.savingAccount)+Number(amount));
+                let transferAmount=(Number(item.savingAccount)+Number(amount)+Number(currencyCalAmount));
                 transferUser.update({'savingAccount':transferAmount});    
             }
+            //update transaction history
             transHistory();
             
             //update local storage
@@ -144,21 +128,71 @@ export default function Banktransfer({history}){
         setTimeout(() => {
             history.push('/dashboard');
         }, 3000);
-      }
+    }        
+    }
+
+    function CalculateAmount(userbaseCurrency,fromCurrency,toCurrency,amount,currencyList){
+        let finallist=Object.values(currencyList);
+        let rates=finallist.slice(1,finallist.length);
+        let convertedAmount=0;
+        //calculate currency
+        if(userbaseCurrency === 'inr'){
+            convertedAmount=calculateINRCurrency(fromCurrency,toCurrency,amount);
+        }
+
+        if(userbaseCurrency === 'usd'){
+            convertedAmount=calculateUSCurrency(fromCurrency,toCurrency,amount);
+        }
+
+        if(userbaseCurrency === 'kwd'){
+            convertedAmount=calculateKWDCurrency(fromCurrency,toCurrency,amount);
+        }
+        
+        console.log('converted amount is ',convertedAmount);
+        return convertedAmount;
+    }
+
+
+    function calculateINRCurrency(fromCurrency,toCurrency,amount){
+        if(fromCurrency === 'inr' && toCurrency === 'inr'){
+            return amount;
+        }else if(fromCurrency === 'inr' && toCurrency === 'usd'){
+            return amount*0.013;
+        }else if(fromCurrency === 'inr' && toCurrency === 'kwd'){
+            return amount*0.004;
+        }else{
+            return 0;
+        }
+    }
+
+    function calculateUSCurrency(fromCurrency,toCurrency,amount){
+        if(fromCurrency === 'usd' && toCurrency === 'inr'){
+            return amount*73.29;
+        }else if(fromCurrency === 'usd' && toCurrency === 'usd'){
+            return amount;
+        }else if(fromCurrency === 'usd' && toCurrency === 'kwd'){
+            return amount*0.30;
+        }else{
+            return 0;
+        }
+    }
+
+    function calculateKWDCurrency(fromCurrency,toCurrency,amount){
+        if(fromCurrency === 'kwd' && toCurrency === 'inr'){
+            return amount*239.57;
+        }else if(fromCurrency === 'kwd' && toCurrency === 'usd'){
+            return amount*3.26;
+        }else if(fromCurrency === 'kwd' && toCurrency === 'kwd'){
+            return amount;
+        }else{
+            return 0;
+        }
     }
 
     function handleChange(event){
         setAmount(event.target.value);
     }
-
-    function currencyCalculator(userCurrency,sendCurrency){
-        let countryCurrency=userCurrency.country === 'India' ? 'INR' : userCurrency.country === 'USA' ? 'USD'  :  'KWD';
-        if(sendCurrency === 'India' && countryCurrency === 'India'){
-            return 1;
-        }else if(sendCurrency === 'India' && countryCurrency === 'USA'){
-            return 72;
-        }
-    }
+    
 
     //transaction history
     function transHistory(){
