@@ -59,7 +59,7 @@ export default function Banktransfer({history}){
     useEffect(() => {
         console.log('currencyvalues ',currencyvalues);
         ref.orderByChild("id").on("child_added", function(snapshot) {        
-            setNames(names => [...names, {id:snapshot.val().id, name:snapshot.val().name,accountBalance:snapshot.val().accountBalance,savingAccount:snapshot.val().savingAccount, currentAccount:snapshot.val().currentAccount,country:snapshot.val().country}])
+            setNames(names => [...names, {id:snapshot.val().id,userid:snapshot.val().userid, name:snapshot.val().name,accountBalance:snapshot.val().accountBalance,savingAccount:snapshot.val().savingAccount, currentAccount:snapshot.val().currentAccount,country:snapshot.val().country}])
           });
       },[]);
 
@@ -109,17 +109,17 @@ export default function Banktransfer({history}){
         //end of currency convertion
 
             if(receiveUserInfo?.accType === "Current Account")  {
-                let transferAmount=(Number(item.currentAccount)+Number(amount)+Number(currencyCalAmount));
+                let transferAmount=(Number(item.currentAccount)+Number(currencyCalAmount));
                 transferUser.update({'currentAccount':transferAmount});    
             }
 
             if(receiveUserInfo?.accType === "Savings Account"){
-                let transferAmount=(Number(item.savingAccount)+Number(amount)+Number(currencyCalAmount));
+                let transferAmount=(Number(item.savingAccount)+Number(currencyCalAmount));
                 transferUser.update({'savingAccount':transferAmount});    
             }
             //update transaction history
-            transHistory(loggedinUser.userid,amount,"Success",sendUserInfo.accType);
-            
+            transHistory(item.userid,amount,"Success",sendUserInfo.accType);
+            console.log('item ',item);
             //update local storage
             localStorage.setItem('loggedInUser',JSON.stringify(user2));
         }
@@ -135,6 +135,7 @@ export default function Banktransfer({history}){
         let finallist=Object.values(currencyList);
         let rates=finallist.slice(1,finallist.length);
         let convertedAmount=0;
+        debugger;
         //calculate currency
         if(userbaseCurrency === 'inr'){
             convertedAmount=calculateINRCurrency(fromCurrency,toCurrency,amount);

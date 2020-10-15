@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Textbox from './reusableComponents/Textbox';
 import custid from 'custom-id';
 import Firebase from '../api/config';
@@ -9,6 +9,10 @@ import {NavLink} from 'react-router-dom';
 export default function UserRegistration({createUser,history}){
     const [gender,setGender]=useState('Select');
     const [country,setCountry]=useState('Select');
+    const [checkUser,setCheckUser]=useState('');
+    const [names, setNames]=useState([]);
+
+    var ref = Firebase.ref("users"); 
 
     const intialValue={
         id:null,
@@ -31,12 +35,27 @@ export default function UserRegistration({createUser,history}){
         setUser({...user,[target.name]:target.value,id:custid({}),accountBalance:10000,currentAccount:10000,savingAccount:5000,gender:gender, userAvatar: gender === 'male' ? './assets/Male.jpg' : './assets/Female.png',country:country});
     }
 
+    useEffect(() => {
+        ref.orderByChild("id").on("child_added", function(snapshot) {        
+            setNames(names => [...names, {userid:snapshot.val().userid}]);
+          });
+      },[]);
+
     const handleSubmit=(event)=>{
         //create        
-        console.log('gender',gender);
         event.preventDefault();  
-        console.log('user',user);
-        let userRef = Firebase.ref('users/' + user.id);
+        console.log('names',names);
+        let userFound=names.findIndex(x=>x.userid.toLowerCase() === user.userid.toLowerCase());
+        console.log('userFound ',userFound);
+        if(userFound>0){
+            toast.warning('User already exists',{
+                     position:toast.POSITION.BOTTOM_RIGHT
+                });
+                setTimeout(() => {
+                    reset();
+                }, 3000);
+        }else{
+            let userRef = Firebase.ref('users/' + user.id);
         //userRef.child(user.userid).set(user);
         userRef.set(user);
         setUser({...user,intialValue});        
@@ -44,9 +63,20 @@ export default function UserRegistration({createUser,history}){
             position:toast.POSITION.BOTTOM_RIGHT
         });
         setShow(true);
+        reset();
         setTimeout(() => {
             history.push('/')
         }, 13000);
+        }
+    }
+
+    function reset(e){
+        Array.from(document.querySelectorAll("input")).forEach(
+            input => (input.value = "")
+          );
+          Array.from(document.querySelectorAll("select")).forEach(
+            input => (input.value = "Select")
+          );
     }
 
     return(
@@ -93,7 +123,7 @@ export default function UserRegistration({createUser,history}){
 
             <div class="d-flex flex-row">
                 <label>Mobile</label>
-                <div class="flex-fill"><Textbox name="mobileNo" type='text' value={user.mobileNo} handleChange={handleChange}/></div>
+                <div class="flex-fill"><Textbox name="mobileNo" type='number' value={user.mobileNo} handleChange={handleChange}/></div>
             </div>
 
         {/* <Textbox name="gender" type='text' value={user.gender} handleChange={handleChange}/> */}
@@ -122,7 +152,7 @@ export default function UserRegistration({createUser,history}){
         </select><br/>
          <div class="text-right">
              <button onClick={handleSubmit} className="btn btn-info d-inline-block mt-4 mr-2 shadow-sm">Register</button>
-             <button className="btn btn-danger d-inline-block mt-4 shadow-sm">Clear</button>
+             <button onClick={reset} className="btn btn-danger d-inline-block mt-4 shadow-sm">Clear</button>
         </div>
         </form>
         <ToastContainer />
