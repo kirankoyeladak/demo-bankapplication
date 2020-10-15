@@ -29,7 +29,7 @@ export default function Profile(){
                         </div>
                         <div className="d-flex flex-row border-top border-bottom mt-3">
                             <div className="p-4 text-center w-50 border-right"><b>47</b> <br /><small>Operations</small></div>
-                            <div className="p-4 text-center w-50"><b>+{loggedUser.country === 'India' ? '₹' : loggedUser.country === 'USA' ? '$' : loggedUser.country === 'Kuwait' ? 'د.ك' : 'Select'} {loggedUser.accountBalance} </b><br /><small>Amount</small></div>
+                            <div className="p-4 text-center w-50"><b>+{loggedUser.country === 'India' ? '₹' : loggedUser.country === 'USA' ? '$' : loggedUser.country === 'Kuwait' ? 'د.ك' : 'Select'} {Number(loggedUser.accountBalance).toFixed(2)} </b><br /><small>Amount</small></div>
                         </div>
                     </div>
                 </section>

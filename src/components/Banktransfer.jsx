@@ -11,7 +11,7 @@ import custid from 'custom-id';
 import {currencyvalues} from '../api/currencyvalues';
 
 export default function Banktransfer({history}){
-
+    let signUser=JSON.parse(localStorage.getItem('loggedInUser'));
     const initRecentTrans={
         id:"",
         accType:"",
@@ -250,7 +250,7 @@ export default function Banktransfer({history}){
                                 </div>
                                 <div class="bg-gradient-red p-4 col-lg-6">    
                                     <div class="pt-1">
-                                    Availabel Balance <span class="bg-warning px-3 font-weight-bold py-2"><i class="fas fa-dollar-sign"></i> {sendUserInfo.amount} </span>
+                                    Availabel Balance <span class="bg-warning px-3 font-weight-bold py-2">{signUser.country === 'India' ? '₹' : signUser.country === 'USA' ? '$' : signUser.country === 'Kuwait' ? 'د.ك' : 'Select'} { Number(sendUserInfo.amount).toFixed(2)} </span>
                                      {
                                       ((sendUserInfo.accType !== "Select Account" && sendUserInfo.amount<=0) && (showError))&& 
                                       <div class='bg-danger position-relative p-3 mt-2 text-light'>Insufficent Funds unable to transfer</div>

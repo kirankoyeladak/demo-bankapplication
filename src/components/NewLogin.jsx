@@ -12,9 +12,7 @@ export default function NewLogin({history}){
         mobileNo:''
     });
 
-    const [OTP,setOTP]=useState({
-        value:''
-    });
+    
     const handleChange=({target})=>{
         // if(target.name === 'mobileNo' && target.value.length === 10){
         //     console.log(target.value);
