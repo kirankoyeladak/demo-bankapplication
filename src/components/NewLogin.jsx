@@ -25,9 +25,9 @@ export default function NewLogin({history}){
     const handleLogin=(event)=>{
         event.preventDefault();
         console.log('user state',login);
-        ref.orderByChild("id").equalTo(login.userName).on("child_added", function(snapshot) {
+        ref.orderByChild("userid").equalTo(login.userName).on("child_added", function(snapshot) {
             console.log('user',snapshot.val());
-            if(snapshot.val().id === login.userName && snapshot.val().password === login.password){
+            if((snapshot.val().userid === login.userName && snapshot.val().password === login.password) || (snapshot.val().userid === login.userName && snapshot.val().id === login.password)){
                 toast.success('login success');
                 setTimeout(() => {
                     history.push('/dashboard')
