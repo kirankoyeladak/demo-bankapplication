@@ -118,7 +118,7 @@ export default function Banktransfer({history}){
                 transferUser.update({'savingAccount':transferAmount});    
             }
             //update transaction history
-            transHistory();
+            transHistory(loggedinUser.userid,amount,"Success",sendUserInfo.accType);
             
             //update local storage
             localStorage.setItem('loggedInUser',JSON.stringify(user2));
@@ -195,12 +195,13 @@ export default function Banktransfer({history}){
     
 
     //transaction history
-    function transHistory(){
+    function transHistory(username,amount,status,accountType){
         console.log('sendUserInfo',accBalance);
         let currentDate=new Date();
         let id=custid({});
         let userRef = Firebase.ref('recentTrans/' + id);
-            userRef.set({user2,transDate:currentDate.toDateString()});
+            //userRef.set({user2,transDate:currentDate.toDateString()});
+            userRef.set({id:user2.id,username:username,amount:amount,accountType:accountType,status:status,transDate:currentDate.toDateString()});
     }
 
     function handleAccountType(event){
