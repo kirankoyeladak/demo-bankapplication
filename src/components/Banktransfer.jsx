@@ -11,7 +11,10 @@ import custid from 'custom-id';
 import {currencyvalues} from '../api/currencyvalues';
 
 export default function Banktransfer({history}){
+    let receiverUserCurrency='';
     let signUser=JSON.parse(localStorage.getItem('loggedInUser'));
+    const [currency,setCurrency]=useState();
+    const [orginCurrency,setOrginCurrency]=useState();
     const initRecentTrans={
         id:"",
         accType:"",
@@ -158,9 +161,9 @@ export default function Banktransfer({history}){
         if(fromCurrency === 'inr' && toCurrency === 'inr'){
             return amount;
         }else if(fromCurrency === 'inr' && toCurrency === 'usd'){
-            return amount*0.013;
+            return amount*0.0136121;
         }else if(fromCurrency === 'inr' && toCurrency === 'kwd'){
-            return amount*0.004;
+            return amount*0.00416893;
         }else{
             return 0;
         }
@@ -168,7 +171,7 @@ export default function Banktransfer({history}){
 
     function calculateUSCurrency(fromCurrency,toCurrency,amount){
         if(fromCurrency === 'usd' && toCurrency === 'inr'){
-            return amount*73.29;
+            return amount*73.29;// 1000*73.29 ==>73290
         }else if(fromCurrency === 'usd' && toCurrency === 'usd'){
             return amount;
         }else if(fromCurrency === 'usd' && toCurrency === 'kwd'){
@@ -208,6 +211,7 @@ export default function Banktransfer({history}){
     function handleAccountType(event){
         var index = event.nativeEvent.target.selectedIndex;
         setSendUserInfo({ accType:event.nativeEvent.target[index].text,amount:event.target.value});
+        setOrginCurrency();
         if(event.target.value){
             setShowError(true);
         }
@@ -220,6 +224,13 @@ export default function Banktransfer({history}){
         setReceiveUserInfo({ accType:event.nativeEvent.target[index].text});
         //setAccBalance(event.target.value);
         console.log("setReceiveUserInfo ",receiveUserInfo);
+        
+        let item=names.find(x=>x.name === xyz.val);
+        //user2.country === 'India' ? 'inr' : loggedinUser.country === 'USA' ? 'usd'  :  'kwd';
+        let receiverUserCurrency=item?.country === 'India' ? 'inr(India)' : item?.country === 'USA' ? 'usd(USA)'  :  'kwd(Kuwait)' ;
+        
+        setCurrency(receiverUserCurrency);
+        console.log('sender currency is ',receiverUserCurrency);
     }
     
     return (
@@ -286,7 +297,7 @@ export default function Banktransfer({history}){
                                                   {item.name}
                                                 </div>
                                               }
-                                              onChange={(event, val) => {    
+                                              onChange={(event, val) => {   
                                                 setXyz({ val })
                                               } 
                                             }
@@ -313,6 +324,9 @@ export default function Banktransfer({history}){
                                         <Textbox name='amount' disabled={xyz.val === '' }  type='number'value={amount} handleChange={handleChange}/>
                                     </div>
                                 </div>
+                                    <div>
+                                            <label class="text-secondary mt-3 mt-md-0">Transfer User Currency :-{signUser.country === 'India' ? 'inr(India)' : signUser.country === 'USA' ? 'usd(USA)' : signUser.country === 'Kuwait' ? 'kwd(kuwait)' : 'Select'} - {currency}</label>
+                                    </div>
                                 <div class="col-md-3 align-self-end mt-3 mt-md-0"> 
                                     <button className='btn btn-info d-block' disabled={xyz.val === '' } onClick={handleTransfer}>Transfer</button>                                  
                                 </div>    
