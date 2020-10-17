@@ -5,6 +5,7 @@ import Textbox from './reusableComponents/Textbox';
 import { useState,useEffect } from 'react';
 import Navbar from './Layout/Navbar';
 import Sidebar from './Sidebar';
+import FloatNav from './FloatNav';
 import Autocomplete from 'react-autocomplete';
 import {RenderUserInfo} from  './RenderUserInfo';
 import custid from 'custom-id';
@@ -259,7 +260,8 @@ export default function Banktransfer({history}){
     
     return (
         <>
-         <div class="wrapper">
+        <FloatNav/>
+        <div class="wrapper">
             <Sidebar/>
             <div id="content">
                 <Navbar/>
@@ -273,7 +275,7 @@ export default function Banktransfer({history}){
                                 <div class="bg-gradient-green p-4 col-lg-6">
                                     <div class="d-flex">
                                         <div class="mr-3 pt-1">
-                                        <i class="fas fa-user"></i><span class="font-weight-bold mr-2"> Sender : </span> {loggedinUser.name}                                  
+                                        <i class="fas fa-user"></i><span class="font-weight-bold mx-2"> Sender : </span> <span class="display-7">{loggedinUser.name}       </span>                           
                                         </div>
                                          <div class="mr-3">
                                              <select id="inputState" class="" onChange={handleAccountType}>
