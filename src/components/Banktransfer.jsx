@@ -263,18 +263,17 @@ export default function Banktransfer({history}){
             <Sidebar/>
             <div id="content">
                 <Navbar/>
-                <div class="container-fluide px-3">
+                <div class="container px-3">
                     <div className="dash-transfers shadow-sm">
 
                         <div class="p-4 mx-auto">
                             <h2 class=""><i class="fas fa-arrow-circle-down mr-2 mt-1 ml-2"></i> Transfer</h2>
                             
-
                             <div className="row mt-4 p-3">
                                 <div class="bg-gradient-green p-4 col-lg-6">
                                     <div class="d-flex">
                                         <div class="mr-3 pt-1">
-                                        <i class="fas fa-user"></i> Sender : <span class="font-weight-bold">{loggedinUser.name}</span>                                   
+                                        <i class="fas fa-user"></i><span class="font-weight-bold mr-2"> Sender : </span> {loggedinUser.name}                                  
                                         </div>
                                          <div class="mr-3">
                                              <select id="inputState" class="" onChange={handleAccountType}>
@@ -303,7 +302,7 @@ export default function Banktransfer({history}){
 
                             <div class="container mb-5">
                                 <div class="row">
-                                <div class="col-12 col-md-3">    
+                                <div class="col-12 col-md-4">    
                                     <label class="text-secondary d-block">Transfer To</label>
                                     <div class="autocomplete-wrapper">
                                           <Autocomplete items={names}
@@ -332,7 +331,7 @@ export default function Banktransfer({history}){
                                             />  
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label class="text-secondary mt-3 mt-md-0">Account Type</label>
                                     <div>
                                      <select id="inputState" disabled={xyz.val === ''} class="" onChange={handleReceiveUser}>
@@ -341,18 +340,18 @@ export default function Banktransfer({history}){
                                         <option>Current Account</option>
                                     </select>
                                     </div>
-                                </div>    
-                                <div class="col-md-3">
+                                </div>                                    
+                                <div class="col-md-4">
                                     <label class="text-secondary mt-3 mt-md-0">Transfer Amount</label>
                                     <div>
                                         <Textbox name='amount' disabled={xyz.val === '' }  type='number'value={amount} handleChange={handleChange}/>
                                     </div>
                                 </div>
-                                    <div>
-                                            <label class="text-secondary mt-3 mt-md-0">Transfer User Currency :-{signUser.country === 'India' ? 'inr(India)' : signUser.country === 'USA' ? 'usd(USA)' : signUser.country === 'Kuwait' ? 'kwd(kuwait)' : signUser.country === 'Europe' ? 'euro(Europe)' : 'Select'} - {currency}</label>
-                                    </div>
-                                <div class="col-md-3 align-self-end mt-3 mt-md-0"> 
-                                    <button className='btn btn-info d-block' disabled={xyz.val === '' } onClick={handleTransfer}>Transfer</button>                                  
+                                <div class="col-md-9 col-lg-10 text-right pt-4">
+                                            <label class="text-secondary mt-3 mt-md-0"><span class="bb-green mr-3">Currency Transfer From :</span> {signUser.country === 'India' ? 'INR (India)' : signUser.country === 'USA' ? 'USD (USA)' : signUser.country === 'Kuwait' ? 'KWD (kuwait)' : signUser.country === 'Europe' ? 'EURO (Europe)' : 'Select'} <span className="bg-round text-light mx-2">To</span> {currency}</label>
+                                </div>
+                                <div class="col-md-3 col-lg-2 align-self-end mt-3 mt-md-0 text-right"> 
+                                    <button className='btn btn-info d-block ml-auto' disabled={xyz.val === '' } onClick={handleTransfer}>Transfer</button>                                  
                                 </div>    
                             </div> 
                             </div>                                                  

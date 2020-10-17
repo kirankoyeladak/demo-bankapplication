@@ -215,7 +215,13 @@ a[data-toggle="collapse"] {
     Common Styles
 ----------------------------------------------------- */
 
-
+.bg-round {
+  padding: 5px 7px;
+  background: seagreen;
+  color: #f1f1f1;
+  font-weight: bold;
+  border-radius: 50%;
+}
 .btn-info, .btn-danger, .btn-success {
  border-radius: 15px;
 }
