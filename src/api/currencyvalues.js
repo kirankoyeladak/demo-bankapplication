@@ -16,5 +16,11 @@ export const currencyvalues=[
         USD: 3.26,
         INR:239.51,
         KWD:1
+    },
+    {
+        id:'euro',
+        USD: 3.26,
+        INR:239.51,
+        KWD:1
     }
 ];

@@ -100,13 +100,13 @@ export default function Banktransfer({history}){
             //currency convertion
                  //sender
          let user2=names.find(x=>x.id === loggedinUser.id);
-         let countryCurrency=user2.country === 'India' ? 'inr' : loggedinUser.country === 'USA' ? 'usd'  :  'kwd';
+         let countryCurrency=user2.country === 'India' ? 'inr' : loggedinUser.country === 'USA' ? 'usd' : loggedinUser.country === 'Europe' ? 'euro'  :  'kwd';
          let baseCurrency=countryCurrency;
          let findCurrency=currencyvalues.find(x=>x.id === countryCurrency);
-         let senderCountryCurrency=loggedinUser.country === 'India' ? 'inr' : loggedinUser.country === 'USA' ? 'usd'  :  'kwd';
+         let senderCountryCurrency=loggedinUser.country === 'India' ? 'inr' : loggedinUser.country === 'USA' ? 'usd' : loggedinUser.country === 'Europe' ? 'euro' :  'kwd';
          //receiver
-         let receiverCountryCurrencyCode=item.country === 'India' ? 'inr' : item.country === 'USA' ? 'usd'  :  'kwd';
-         let receiverCountryCurrency=item.country === 'India' ? 'inr' : item.country === 'USA' ? 'usd'  :  'kwd';
+         let receiverCountryCurrencyCode=item.country === 'India' ? 'inr' : item.country === 'USA' ? 'usd' : item.country === 'Europe' ? 'euro'  :  'kwd';
+         let receiverCountryCurrency=item.country === 'India' ? 'inr' : item.country === 'USA' ? 'usd' : item.country === 'Europe' ? 'euro'  :  'kwd';
          
          let currencyCalAmount=CalculateAmount(baseCurrency,senderCountryCurrency,receiverCountryCurrencyCode,amount,findCurrency);
         //end of currency convertion
@@ -151,6 +151,10 @@ export default function Banktransfer({history}){
         if(userbaseCurrency === 'kwd'){
             convertedAmount=calculateKWDCurrency(fromCurrency,toCurrency,amount);
         }
+
+        if(userbaseCurrency === 'euro'){
+            convertedAmount=calculateEuroCurrency(fromCurrency,toCurrency,amount);
+        }
         
         console.log('converted amount is ',convertedAmount);
         return convertedAmount;
@@ -161,9 +165,11 @@ export default function Banktransfer({history}){
         if(fromCurrency === 'inr' && toCurrency === 'inr'){
             return amount;
         }else if(fromCurrency === 'inr' && toCurrency === 'usd'){
-            return amount*0.0136121;
+            return amount*0.0136141;
         }else if(fromCurrency === 'inr' && toCurrency === 'kwd'){
-            return amount*0.00416893;
+            return amount*0.00417678;
+        }else if(fromCurrency === 'inr' && toCurrency === 'euro'){
+            return amount*0.0116173;
         }else{
             return 0;
         }
@@ -171,11 +177,13 @@ export default function Banktransfer({history}){
 
     function calculateUSCurrency(fromCurrency,toCurrency,amount){
         if(fromCurrency === 'usd' && toCurrency === 'inr'){
-            return amount*73.29;// 1000*73.29 ==>73290
+            return amount*73.4532;
         }else if(fromCurrency === 'usd' && toCurrency === 'usd'){
             return amount;
         }else if(fromCurrency === 'usd' && toCurrency === 'kwd'){
-            return amount*0.30;
+            return amount*0.306797;
+        }else if(fromCurrency === 'usd' && toCurrency === 'euro'){
+            return amount*0.853285;
         }else{
             return 0;
         }
@@ -183,10 +191,26 @@ export default function Banktransfer({history}){
 
     function calculateKWDCurrency(fromCurrency,toCurrency,amount){
         if(fromCurrency === 'kwd' && toCurrency === 'inr'){
-            return amount*239.57;
+            return amount*239.419;
         }else if(fromCurrency === 'kwd' && toCurrency === 'usd'){
-            return amount*3.26;
+            return amount*3.25948;
         }else if(fromCurrency === 'kwd' && toCurrency === 'kwd'){
+            return amount;
+        }else if(fromCurrency === 'kwd' && toCurrency === 'euro'){
+            return amount*2.78126;
+        }else{
+            return 0;
+        }
+    }
+
+    function calculateEuroCurrency(fromCurrency,toCurrency,amount){
+        if(fromCurrency === 'euro' && toCurrency === 'inr'){
+            return amount*86.0828;
+        }else if(fromCurrency === 'euro' && toCurrency === 'usd'){
+            return amount*1.17194;
+        }else if(fromCurrency === 'euro' && toCurrency === 'kwd'){
+            return amount*0.359549;
+        }else if(fromCurrency === 'euro' && toCurrency === 'euro'){
             return amount;
         }else{
             return 0;
@@ -227,7 +251,7 @@ export default function Banktransfer({history}){
         
         let item=names.find(x=>x.name === xyz.val);
         //user2.country === 'India' ? 'inr' : loggedinUser.country === 'USA' ? 'usd'  :  'kwd';
-        let receiverUserCurrency=item?.country === 'India' ? 'inr(India)' : item?.country === 'USA' ? 'usd(USA)'  :  'kwd(Kuwait)' ;
+        let receiverUserCurrency=item?.country === 'India' ? 'inr(India)' : item?.country === 'USA' ? 'usd(USA)'  : item?.country === 'Europe' ? 'euro(Europe)' : 'kwd(Kuwait)' ;
         
         setCurrency(receiverUserCurrency);
         console.log('sender currency is ',receiverUserCurrency);
@@ -263,7 +287,7 @@ export default function Banktransfer({history}){
                                 </div>
                                 <div class="bg-gradient-red p-4 col-lg-6">    
                                     <div class="pt-1">
-                                    Availabel Balance <span class="bg-warning px-3 font-weight-bold py-2">{signUser.country === 'India' ? '₹' : signUser.country === 'USA' ? '$' : signUser.country === 'Kuwait' ? 'د.ك' : 'Select'} { Number(sendUserInfo.amount).toFixed(2)} </span>
+                                    Availabel Balance <span class="bg-warning px-3 font-weight-bold py-2">{signUser.country === 'India' ? '₹' : signUser.country === 'USA' ? '$' : signUser.country === 'Kuwait' ? 'د.ك' : signUser.country === 'Europe' ? '€' : 'Select'} { Number(sendUserInfo.amount).toFixed(2)} </span>
                                      {
                                       ((sendUserInfo.accType !== "Select Account" && sendUserInfo.amount<=0) && (showError))&& 
                                       <div class='bg-danger position-relative p-3 mt-2 text-light'>Insufficent Funds unable to transfer</div>
@@ -325,7 +349,7 @@ export default function Banktransfer({history}){
                                     </div>
                                 </div>
                                     <div>
-                                            <label class="text-secondary mt-3 mt-md-0">Transfer User Currency :-{signUser.country === 'India' ? 'inr(India)' : signUser.country === 'USA' ? 'usd(USA)' : signUser.country === 'Kuwait' ? 'kwd(kuwait)' : 'Select'} - {currency}</label>
+                                            <label class="text-secondary mt-3 mt-md-0">Transfer User Currency :-{signUser.country === 'India' ? 'inr(India)' : signUser.country === 'USA' ? 'usd(USA)' : signUser.country === 'Kuwait' ? 'kwd(kuwait)' : signUser.country === 'Europe' ? 'euro(Europe)' : 'Select'} - {currency}</label>
                                     </div>
                                 <div class="col-md-3 align-self-end mt-3 mt-md-0"> 
                                     <button className='btn btn-info d-block' disabled={xyz.val === '' } onClick={handleTransfer}>Transfer</button>                                  

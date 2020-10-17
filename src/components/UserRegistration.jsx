@@ -149,6 +149,7 @@ export default function UserRegistration({createUser,history}){
             <option value='India'>India</option>
             <option value='USA'>USA</option>
             <option value='Kuwait'>Kuwait</option>
+            <option value='Europe'>Europe</option>
         </select><br/>
          <div class="text-right">
              <button onClick={handleSubmit} className="btn btn-info d-inline-block mt-4 mr-2 shadow-sm">Register</button>
