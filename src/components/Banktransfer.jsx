@@ -347,10 +347,10 @@ export default function Banktransfer({history}){
                                         <Textbox name='amount' disabled={xyz.val === '' }  type='number'value={amount} handleChange={handleChange}/>
                                     </div>
                                 </div>
-                                <div class="col-md-9 col-lg-10 text-right pt-4">
-                                            <label class="text-secondary mt-3 mt-md-0"><span class="bb-green mr-3">Currency Transfer From :</span> {signUser.country === 'India' ? 'INR (India)' : signUser.country === 'USA' ? 'USD (USA)' : signUser.country === 'Kuwait' ? 'KWD (kuwait)' : signUser.country === 'Europe' ? 'EURO (Europe)' : 'Select'} <span className="bg-round text-light mx-2">To</span> {currency}</label>
+                                <div class="col-lg-10 text-right pt-4">
+                                            <label class="text-secondary mt-3 mt-md-0"><span class="bb-green mr-3 d-block d-md-inline mb-3">Currency Transfer From :</span> {signUser.country === 'India' ? 'INR (India)' : signUser.country === 'USA' ? 'USD (USA)' : signUser.country === 'Kuwait' ? 'KWD (kuwait)' : signUser.country === 'Europe' ? 'EURO (Europe)' : 'Select'} <span className="bg-round text-light mx-2">To</span> {currency}</label>
                                 </div>
-                                <div class="col-md-3 col-lg-2 align-self-end mt-3 mt-md-0 text-right"> 
+                                <div class="col-lg-2 align-self-end mt-3 mt-md-0 text-right"> 
                                     <button className='btn btn-info d-block ml-auto' disabled={xyz.val === '' } onClick={handleTransfer}>Transfer</button>                                  
                                 </div>    
                             </div> 
