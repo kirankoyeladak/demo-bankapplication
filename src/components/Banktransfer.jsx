@@ -301,8 +301,9 @@ export default function Banktransfer({history}){
                                  </div>                               
 
                             </div>
-
-                            <div class="container mb-5">
+                            {
+                                Number(sendUserInfo.amount) > 0 && 
+                                <div class="container mb-5">
                                 <div class="row">
                                 <div class="col-12 col-md-4">    
                                     <label class="text-secondary d-block">Transfer To</label>
@@ -356,19 +357,9 @@ export default function Banktransfer({history}){
                                     <button className='btn btn-info d-block ml-auto' disabled={xyz.val === '' } onClick={handleTransfer}>Transfer</button>                                  
                                 </div>    
                             </div> 
-                            </div>                                                  
-                            {/*
-                            <p>
-                                {
-                                    transfer && 
-                                    <>
-                                    User Name:- {xyz.val}
-                                    </>
-                                }
-                            </p>*/}    
+                            </div>  
+                            }                                               
                         </div>
-
-
                     </div>
                 </div>    
             </div>          
